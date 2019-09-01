@@ -14,6 +14,9 @@ import sys
 fileInput = sys.argv[1]
 fileOutput= sys.argv[2]
 
+
+
+
 # Dictionary for all words
 wordfileDict = {}
 
@@ -21,22 +24,20 @@ wordfileDict = {}
 with open(fileInput, "r") as wordFile:
     for line in wordFile:
         #removes newlines
-        line = line.strip()
-        
+       
         line = line.lower()
         
-        words = line.split(' ')
-        
+        #words = line.split()
+        words = re.findall(r'\b[a-z]{1,15}\b' , line)
+    
         for word in words:
             if word in wordfileDict:
                 wordfileDict[word] += 1
             else:
                 wordfileDict[word] = 1
                 
+finalsorted = sorted(wordfileDict.keys())
+#sortedFileWords = sorted(wordfileDict)
 with open(fileOutput, 'w') as f:
-    for key in list(wordfileDict.keys()):
-        f.write((key, ':', str(wordfileDict[key])))
-    
-
-                
-        
+    for key in list(finalsorted):
+        f.writelines("%s %s\n" %((key, str(wordfileDict[key]))))
